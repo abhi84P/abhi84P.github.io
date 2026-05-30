@@ -1,0 +1,13 @@
+baseURL = 'https://abhi84p.github.io/'
+languageCode = 'en-us'
+title = 'Abhishek Poudel'
+theme = 'hugo-bearblog'
+
+[params]
+  favicon = "favicon.png"
+  description = "Abhishek Poudel's blog."
+  footer = "© Abhishek Poudel"
+  email = "abhishekpoudel84@gmail.com"
+
+[taxonomies]
+  tag = "tags"
