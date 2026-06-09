@@ -1,0 +1,63 @@
+<style>
+  body {
+    max-width: 1000px;
+    padding: 20px;
+  }
+
+  .layout {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+  }
+
+  .sidebar {
+    width: 160px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+  }
+
+  .sidebar .title {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar .title h2 {
+    font-size: 1.1em;
+    margin: 0;
+  }
+
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .sidebar nav a {
+    display: block;
+    margin: 0;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 640px) {
+    .layout {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar {
+      width: 100%;
+      position: static;
+    }
+
+    .sidebar nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem 1rem;
+    }
+  }
+</style>

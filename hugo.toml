@@ -15,19 +15,19 @@ theme = 'hugo-bearblog'
 [[menu.main]]
   name = "Blog"
   url = "/blog/"
-  weight = 2
+  weight = 3
 
 [[menu.main]]
   name = "GitHub"
   url = "https://github.com/abhi84P"
-  weight = 3
+  weight = 4
 
 [[menu.main]]
   name = "LinkedIn"
   url = "https://www.linkedin.com/in/abhishek-poudel-1272a6234/"
-  weight = 4
+  weight = 5
 
 [[menu.main]]
   name = "Medium"
   url = "https://medium.com/@abhishekpoudel84"
-  weight = 5
+  weight = 6
