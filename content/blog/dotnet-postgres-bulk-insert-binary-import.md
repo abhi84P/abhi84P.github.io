@@ -15,10 +15,10 @@ When you need to write hundreds or thousands of rows, `INSERT` per row is slow:
 
 ```csharp
 // slow — one round trip per row
-foreach (var voucher in journalVouchers)
+foreach (var voucher in vouchers)
 {
     await _dbConnection.ExecuteAsync(
-        "INSERT INTO journal_vouchers (...) VALUES (...)", voucher);
+        "INSERT INTO vouchers (...) VALUES (...)", voucher);
 }
 ```
 
@@ -35,10 +35,10 @@ All binary imports follow the same four-step structure:
 ```csharp
 using var writer = await ((NpgsqlConnection)_dbConnection)
     .BeginBinaryImportAsync(
-        "COPY journal_vouchers (id, voucher_date_ad, voucher_no, type_id, fiscal_year, branch_code, amount) FROM STDIN (FORMAT BINARY)"
+        "COPY vouchers (id, voucher_date_ad, voucher_no, type_id, fiscal_year, branch_code, amount) FROM STDIN (FORMAT BINARY)"
     );
 
-foreach (var item in journalVouchers)
+foreach (var item in vouchers)
 {
     await writer.StartRowAsync();
     await writer.WriteAsync(item.Id,            NpgsqlTypes.NpgsqlDbType.Uuid);
@@ -68,11 +68,11 @@ Steps:
 The repository injects `IDbConnection`, not `NpgsqlConnection`:
 
 ```csharp
-public class JournalVoucherRepository : IJournalVoucherRepository
+public class VoucherRepository : IVoucherRepository
 {
     private readonly IDbConnection _dbConnection;
 
-    public JournalVoucherRepository(IDbConnection dbConnection)
+    public VoucherRepository(IDbConnection dbConnection)
     {
         _dbConnection = dbConnection;
     }
@@ -145,7 +145,7 @@ Npgsql provides both sync and async variants. Use async in web contexts to avoid
 ```csharp
 // sync — blocks the thread, use only in background jobs or migration scripts
 using var writer = ((NpgsqlConnection)_dbConnection).BeginBinaryImport(
-    "COPY journal_vouchers (...) FROM STDIN (FORMAT BINARY)"
+    "COPY vouchers (...) FROM STDIN (FORMAT BINARY)"
 );
 foreach (var item in items)
 {
@@ -157,7 +157,7 @@ writer.Complete();
 
 // async — use in controllers and handlers
 using var writer = await ((NpgsqlConnection)_dbConnection).BeginBinaryImportAsync(
-    "COPY journal_vouchers (...) FROM STDIN (FORMAT BINARY)"
+    "COPY vouchers (...) FROM STDIN (FORMAT BINARY)"
 );
 foreach (var item in items)
 {
@@ -228,8 +228,8 @@ Binary import respects open transactions. Wrap the whole operation in the `UnitO
 ```csharp
 _unitOfWork.Begin();
 
-await ImportJournalVouchersAsync(vouchers);
-await ImportJournalVoucherTransactionsAsync(transactions);
+await ImportVouchersAsync(vouchers);
+await ImportVoucherTransactionsAsync(transactions);
 
 _unitOfWork.Commit();
 ```
