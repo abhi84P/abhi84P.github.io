@@ -179,3 +179,7 @@ Domain knows nothing. Application knows only Domain. Infrastructure and Persiste
 ---
 
 From here, install MediatR in Application, EF Core in Persistence, and register everything in API's `Program.cs` using extension methods defined in each layer. That keeps `Program.cs` clean and each layer self-registering.
+
+---
+
+**Next:** [Wiring Up Dapper and a Clean Program.cs in .NET Clean Architecture](/blog/dotnet-clean-architecture-dapper-setup/) — how to set up Dapper with PostgreSQL, DbUp migrations, Unit of Work, and a `Program.cs` that stays three lines long.
