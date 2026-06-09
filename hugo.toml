@@ -11,3 +11,18 @@ theme = 'hugo-bearblog'
 
 [taxonomies]
   tag = "tags"
+
+[[menu.main]]
+  name = "Blog"
+  url = "/blog/"
+  weight = 2
+
+[[menu.main]]
+  name = "GitHub"
+  url = "https://github.com/abhi84P"
+  weight = 3
+
+[[menu.main]]
+  name = "LinkedIn"
+  url = "https://www.linkedin.com/in/abhishek-poudel-1272a6234/"
+  weight = 4
