@@ -3,6 +3,7 @@ title = "Bulk Inserts in PostgreSQL with Npgsql Binary Import"
 date = "2026-06-09"
 description = "How to use Npgsql's BeginBinaryImportAsync for high-performance bulk inserts in a .NET Clean Architecture project — including JSONB, temp table bulk updates, and why COPY beats INSERT for volume."
 tags = ["dotnet", "dapper", "postgresql", "backend", "clean-architecture"]
+weight = 1
 +++
 
 This is part of the [Clean Architecture series](/blog/dotnet-clean-architecture-scaffolding/). The [previous post](/blog/dotnet-clean-architecture-dapper-setup/) covered Dapper setup and `IDbConnection` registration. This post covers a pattern used heavily in SampleProject for high-volume writes: PostgreSQL's `COPY` protocol via Npgsql's binary import API.
