@@ -26,3 +26,8 @@ theme = 'hugo-bearblog'
   name = "LinkedIn"
   url = "https://www.linkedin.com/in/abhishek-poudel-1272a6234/"
   weight = 4
+
+[[menu.main]]
+  name = "Medium"
+  url = "https://medium.com/@abhishekpoudel84"
+  weight = 5
