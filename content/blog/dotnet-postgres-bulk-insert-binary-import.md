@@ -177,20 +177,20 @@ await writer.CompleteAsync();
 ```csharp
 // 1. Create temp table for the batch
 await _dbConnection.ExecuteAsync(
-    "CREATE TEMPORARY TABLE temp_sbt (id UUID, sell_bill_id UUID, transaction_number TEXT, effective_rate NUMERIC)"
+    "CREATE TEMPORARY TABLE temp_batch (id UUID, order_id UUID, transaction_number TEXT, effective_rate NUMERIC)"
 );
 
 // 2. Bulk-copy data into the temp table
 using (var writer = await ((NpgsqlConnection)_dbConnection)
     .BeginBinaryImportAsync(
-        "COPY temp_sbt (id, sell_bill_id, transaction_number, effective_rate) FROM STDIN BINARY"
+        "COPY temp_batch (id, order_id, transaction_number, effective_rate) FROM STDIN BINARY"
     ))
 {
-    foreach (var t in sellBillTransactions)
+    foreach (var t in orderItems)
     {
         await writer.StartRowAsync();
         await writer.WriteAsync(t.Id,                NpgsqlDbType.Uuid);
-        await writer.WriteAsync(t.SellBillId,        NpgsqlDbType.Uuid);
+        await writer.WriteAsync(t.OrderId,        NpgsqlDbType.Uuid);
         await writer.WriteAsync(t.TransactionNumber, NpgsqlDbType.Text);
         await writer.WriteAsync(t.EffectiveRate,     NpgsqlDbType.Numeric);
     }
@@ -199,20 +199,20 @@ using (var writer = await ((NpgsqlConnection)_dbConnection)
 
 // 3. Join temp table back to the real table and update
 await _dbConnection.ExecuteAsync(@"
-    UPDATE sell_bill_transactions sbt
+    UPDATE order_items oi
     SET
         is_billed       = true,
-        sell_bill_id    = temp_sbt.sell_bill_id,
-        effective_rate  = temp_sbt.effective_rate,
-        co_amount       = cm_05.closeout_amount,
-        cgt             = cm_05.cgt
-    FROM temp_sbt
-    JOIN cm_05 ON temp_sbt.transaction_number = cm_05.transaction_number
-    WHERE sbt.id = temp_sbt.id
+        order_id    = temp_batch.order_id,
+        effective_rate  = temp_batch.effective_rate,
+        computed_amount       = source_data.final_amount,
+        tax_amount             = source_data.tax_amount
+    FROM temp_batch
+    JOIN source_data ON temp_batch.transaction_number = source_data.transaction_number
+    WHERE oi.id = temp_batch.id
 ");
 
 // 4. Clean up
-await _dbConnection.ExecuteAsync("DROP TABLE temp_sbt");
+await _dbConnection.ExecuteAsync("DROP TABLE temp_batch");
 ```
 
 This pattern produces two round trips regardless of batch size: one `COPY` stream and one `UPDATE`. For 5000 rows that would otherwise need 5000 `UPDATE` statements, the difference is significant.

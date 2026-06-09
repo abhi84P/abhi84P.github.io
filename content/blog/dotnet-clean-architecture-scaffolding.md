@@ -1,6 +1,6 @@
 +++
 title = "Scaffolding a .NET Clean Architecture Solution from Scratch"
-date = "2026-06-09"
+date = "2026-06-11"
 description = "Step-by-step CLI commands to scaffold a proper Clean Architecture solution in .NET with Domain, Application, Infrastructure, Persistence, and API layers."
 tags = ["dotnet", "clean-architecture", "backend"]
 +++
