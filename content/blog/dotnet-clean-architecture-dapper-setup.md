@@ -1,6 +1,6 @@
 +++
 title = "Wiring Up Dapper and a Clean Program.cs in .NET Clean Architecture"
-date = "2026-06-10"
+date = "2026-06-08"
 description = "How to set up Dapper with PostgreSQL, a UnitOfWork pattern, DbUp migrations, and a clean Program.cs using extension methods in a .NET Clean Architecture solution."
 tags = ["dotnet", "clean-architecture", "dapper", "backend"]
 +++
